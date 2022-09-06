@@ -42,7 +42,7 @@ class OidDerConverter {
 	}
 
 	/**
-	 * @return Outputs .<oid> for an absolute OID and <oid> for a relative OID.
+	 * @return string|false Outputs .<oid> for an absolute OID and <oid> for a relative OID.
 	 */
 	public static function derToOID($abBinary, $verbose=false) {
 		$output_oid = array();
@@ -69,6 +69,8 @@ class OidDerConverter {
 		$lengthfinished = false;
 
 		$arcBeginning = true;
+
+		$isRelative = null; // to avoid that phpstan complains
 
 		foreach ($abBinary as $nn => &$pb) {
 			if ($part == 0) { // Class Tag
@@ -187,7 +189,7 @@ class OidDerConverter {
 						// 2.48 and up => 2+ octets
 						// Output in "part 3"
 
-						if ($arcBeginning && ($pb == 0x80)) {
+						if ($pb == 0x80) {
 							if ($verbose) fprintf(STDERR, "Encoding error. Illegal 0x80 paddings. (See Rec. ITU-T X.690, clause 8.19.2)\n");
 							return false;
 						} else {
@@ -350,7 +352,7 @@ class OidDerConverter {
 
 			$nBinaryWork = $nBinary;
 			do {
-				$output[] = nBinaryWork & 0xFF;
+				$output[] = $nBinaryWork & 0xFF;
 				$nBinaryWork /= 0x100;
 			} while ($nBinaryWork > 0);
 		}
