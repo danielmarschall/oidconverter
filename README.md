@@ -1,6 +1,6 @@
 # OID/DER converter for C and PHP
 
-Version: 1.11
+Current version: [1.3](https://github.com/m9aertner/oidConverter)+viathinksoft11
 
 ## Functionalities
 
@@ -12,9 +12,16 @@ Version: 1.11
 
 ## Acknowledgements
 
-Object ID converter by  [Matthias Gärtner](http://www.rtner.de/software/oid.html), 06/1999. Converted to plain 'C' 07/2001.  
+Object ID converter by  [Matthias Gärtner](http://www.rtner.de/software/oid.html), 06/1999. Converted to plain 'C' 07/2001.
+
 Heavily improved version by Daniel Marschall, ViaThinkSoft June-July 2011.
 
 Translated from C to PHP by Daniel Marschall, ViaThinkSoft.
 
-Freeware - do with it whatever you want. Use at your own risk. No warranty of any kind.
+September 2022: Synchronized to upstream version 1.3 (added `-c` argument).
+
+## License
+
+Work of original author: "Freeware - do with it whatever you want. Use at your own risk. No warranty of any kind."
+
+Work of Daniel Marschall (PHP): Licensed under the Apache 2.0 license
