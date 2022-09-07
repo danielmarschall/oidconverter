@@ -305,7 +305,7 @@ int main(int argc, char **argv) {
 		int fSub = 0; // Subtract value from next number output. Used when encoding {2 48} and up
 
 		while (*p) {
-			if (*p != '.' && *p != '\r' && *p != '\n' && *p != '\x20' && *p != '\t') {
+			if (*p != '.' && *p != ':' && *p != '\r' && *p != '\n' && *p != '\x20' && *p != '\t') {
 				*q++ = *p;
 			}
 			p++;
