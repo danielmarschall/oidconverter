@@ -3,7 +3,7 @@
 ### Object ID converter. Matthias Gaertner, 06/1999                             ###
 ### Converted to plain 'C' 07/2001                                              ###
 ###                                                                             ###
-### Enhanced version by Daniel Marschall, ViaThinkSoft 06-07/2011               ###
+### Enhanced version by Daniel Marschall, ViaThinkSoft 06-07/2011, 2022         ###
 ### based on (or rather synchronized to) upstream version 1.3                   ###
 ### -- NEW in +viathinksoft2: 2.48 can also be encoded!                         ###
 ### -- NEW in +viathinksoft2: UUIDs (128-bit) are now supported!                ###
@@ -29,7 +29,7 @@
 ### Use at your own risk. No warranty of any kind.                              ###
 ###                                                                             ###
 #################################################################################*/
-/* $Version: 1.3+viathinksoft11$ */
+/* $Version: 1.3+viathinksoft12$ */
 
 // FUTURE
 // - Alles in Funktionen kapseln. Als Parameter: Array of integer (= dot notation) oder Array of byte (= hex notation)
@@ -48,7 +48,6 @@
 // - "./oid .2.999" will be interpreted as "0.2.999"
 
 // NICE TO HAVE:
-// - also allow -x to interpret "\x06\x02\x88\x37" and { 0x06, 0x02, 0x88, 0x37 }
 // - makefile, manpage, linuxpackage
 // - better make functions instead of putting everything in main() with fprintf...
 
@@ -174,7 +173,7 @@ int main(int argc, char **argv) {
 
 	if (argc == 1) {
 		fprintf(stderr,
-		"OID encoder/decoder 1.3+viathinksoft11 - Matthias Gaertner 1999/2001, Daniel Marschall 2011/2012 - Freeware\n"
+		"OID encoder/decoder 1.3+viathinksoft12 - Matthias Gaertner 1999/2001, Daniel Marschall 2011/2012 - Freeware\n"
 		#ifdef is_gmp
 		"GMP Edition (unlimited arc sizes)\n"
 		#else
@@ -329,9 +328,19 @@ int main(int argc, char **argv) {
 		while (*p) {
 			unsigned char b;
 
-			// This allows also C-notation
+			// This allows also C-hexstring-notation
 			if ((p[0] == '\\') && (p[1] == 'x')) {
 				p += 2;
+				continue;
+			}
+
+			// This allows also C-array-notation
+			if ((p[0] == '0') && (p[1] == 'x')) {
+				p += 2;
+				continue;
+			}
+			if ((p[0] == ',') || (p[0] == '{') || (p[0] == '}') || (p[0] == ' ')) {
+				p++;
 				continue;
 			}
 
